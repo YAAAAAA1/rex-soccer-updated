@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile data",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "format": "email", "description": "User's email" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "photoURL": { "type": "string", "format": "uri", "description": "User's photo URL" },
+        "role": { "type": "string", "enum": ["admin", "client"], "description": "User's role" }
+      },
+      "required": ["uid", "email"]
+    },
+    "sessions": {
+      "title": "Session",
+      "description": "Training session booking",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "User ID of the player" },
+        "type": { "type": "string", "enum": ["Private", "Duo", "Small Group", "Team Training"], "description": "Type of session" },
+        "price": { "type": "number", "description": "Session price" },
+        "date": { "type": "string", "format": "date-time", "description": "Scheduled date and time" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "completed", "cancelled"], "description": "Booking status" },
+        "addOn": { "type": "boolean", "description": "Whether photoshoot add-on is included" }
+      },
+      "required": ["uid", "type", "price", "status"]
+    },
+    "contact_messages": {
+      "title": "Contact Message",
+      "description": "Message from the contact form",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Sender's name" },
+        "email": { "type": "string", "format": "email", "description": "Sender's email" },
+        "message": { "type": "string", "description": "Message content" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the message was sent" }
+      },
+      "required": ["name", "email", "message", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "User profiles"
+    },
+    "/sessions/{sessionId}": {
+      "schema": "sessions",
+      "description": "Training session bookings"
+    },
+    "/contact_messages/{messageId}": {
+      "schema": "contact_messages",
+      "description": "Contact form submissions"
+    }
+  }
+}
